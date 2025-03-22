@@ -1,0 +1,92 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+    <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodels="clr-namespace:maui_lab_1.ViewModels"
+             xmlns:Controls="clr-namespace:maui_lab_1.Controls"
+             x:Class="maui_lab_1.MainPage">
+    <ContentPage.BindingContext>
+        <viewmodels:MainViewModel />
+    </ContentPage.BindingContext>
+
+    <ScrollView>
+        <StackLayout Padding="30" Spacing="20">
+            <!-- Date and Time -->
+            <Label x:Name="DateTimeLabel" Text="{Binding CurrentDateTime, Mode=OneWay   }" FontSize="24" />
+            <Button Text="Update Time" Command="{Binding UpdateTimeCommand}" />
+
+            
+            <Controls:BorderedEntry Placeholder="Enter here..." />
+            <Button Text="Get Current Location" 
+                    Command="{Binding GetLocationCommand}"
+                    HorizontalOptions="Center" />
+
+            
+            <Frame BorderColor="Gray" CornerRadius="10" Padding="10" Margin="0,10,0,10">
+                <StackLayout>
+                    <Label Text="Current Location" FontSize="20" FontAttributes="Bold" HorizontalOptions="Center" />
+                    <StackLayout Orientation="Horizontal">
+                        <Label Text="Latitude:" FontSize="18"/>
+                        <Label Text="{Binding Latitude}" FontSize="16" TextColor="Red"/>
+                    </StackLayout>
+                    <StackLayout Orientation="Horizontal">
+                        <Label Text="Longitude:" FontSize="18"/>
+                        <Label Text="{Binding Longitude}" FontSize="16" TextColor="Red"/>
+                    </StackLayout>
+                    <Button Text="Save Location" 
+                            Command="{Binding SaveLocationCommand}"
+                            HorizontalOptions="Center" 
+                            Margin="0,10,0,0" />
+                </StackLayout>
+            </Frame>
+
+            
+            <Frame BorderColor="Gray" CornerRadius="10" Padding="10" Margin="0,10,0,10">
+                <StackLayout>
+                    <Label Text="Saved Locations" FontSize="20" FontAttributes="Bold" HorizontalOptions="Center" />
+                    <Button Text="Clear All Locations" 
+                            Command="{Binding ClearLocationsCommand}"
+                            HorizontalOptions="Center" 
+                            BackgroundColor="Red"
+                            TextColor="White"
+                            Margin="0,0,0,10" />
+
+                    <CollectionView ItemsSource="{Binding SavedLocations}" 
+                                    EmptyView="No saved locations yet.">
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <SwipeView>
+                                    <SwipeView.RightItems>
+                                        <SwipeItems>
+                                            <SwipeItem Text="Delete"
+                                                       BackgroundColor="Red"
+                                                       Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:MainViewModel}}, Path=DeleteLocationCommand}"
+                                                       CommandParameter="{Binding Id}" />
+                                        </SwipeItems>
+                                    </SwipeView.RightItems>
+                                    <Frame Margin="0,5" Padding="10" BorderColor="LightGray">
+                                        <StackLayout>
+                                            <StackLayout Orientation="Horizontal">
+                                                <Label Text="Lat: " FontAttributes="Bold" />
+                                                <Label Text="{Binding Latitude}" />
+                                                <Label Text=" Long: " FontAttributes="Bold" />
+                                                <Label Text="{Binding Longitude}" />
+                                            </StackLayout>
+                                        </StackLayout>
+                                    </Frame>
+                                </SwipeView>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </StackLayout>
+            </Frame>
+            <Label Text="London Weather" FontSize="24" HorizontalOptions="Center" Margin="0,0,0,20"/>
+            <ActivityIndicator x:Name="LoadingIndicator" IsRunning="False" />
+            <Label x:Name="LocationLabel" Text="{Binding Location, Mode=OneTime}" FontSize="18" />
+            <Label x:Name="TemperatureLabel" Text="{Binding Temperature, Mode=OneWay}" FontSize="36" />
+            <Label x:Name="ConditionLabel"  FontSize="16" />
+            <Label x:Name="HumidityLabel" FontSize="14" />
+            <Label x:Name="WindLabel" FontSize="14" />
+            <Button Text="Refresh Weather" Clicked="OnRefreshClicked" Margin="0,20,0,0" />
+        </StackLayout>
+    </ScrollView>
+</ContentPage>
