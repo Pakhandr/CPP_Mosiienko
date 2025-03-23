@@ -21,7 +21,7 @@ namespace maui_lab_1.Services
                 return;
 
             // Get the database path
-            string dbPath = Path.Combine(FileSystem.AppDataDirectory, "locations.db3");
+            string dbPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "locations.db3");
 
             // Create the connection
             _database = new SQLiteAsyncConnection(dbPath);

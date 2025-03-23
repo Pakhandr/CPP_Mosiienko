@@ -25,9 +25,10 @@ namespace TestForApp
         {
             string dbPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "locations.db3");
 
-            // Create the connection
-            SQLiteAsyncConnection _database = new SQLiteAsyncConnection(dbPath);
-            Assert.IsNotNull(_database);
+            
+            FileInfo batadase = new FileInfo(dbPath);
+            Assert.IsTrue(batadase.Exists);
+            Assert.IsTrue(batadase.Length > 0);
         }
     }
 }
